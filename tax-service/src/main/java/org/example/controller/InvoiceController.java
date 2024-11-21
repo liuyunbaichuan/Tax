@@ -1,17 +1,22 @@
 package org.example.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.common.Result;
+import org.example.domain.dto.InvoiceDto;
 import org.example.domain.po.Invoice;
+import org.example.domain.vo.InvoiceVo;
 import org.example.service.InvoiceService;
+import org.example.utils.ExportExcel;
 import org.example.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,10 +27,33 @@ public class InvoiceController {
     InvoiceService invoiceService;
 
     @GetMapping
-    public PageUtils<Invoice> list(int pageNum, int pageSize) {
+    public PageUtils<InvoiceVo> list(int pageNum, int pageSize) {
         Page<Invoice> page = new Page<>(pageNum, pageSize);
         IPage<Invoice> invoiceIPage = invoiceService.page(page);
 
-        return  PageUtils.page(invoiceIPage);
+        PageUtils<InvoiceVo> page1 = PageUtils.page(invoiceIPage, InvoiceVo.class);
+        return page1;
     }
+
+    @PostMapping("/export")
+    public void export(HttpServletResponse response) {
+        List<Invoice> list = invoiceService.invoiceList();
+        List<InvoiceVo> invoiceVos = BeanUtil.copyToList(list, InvoiceVo.class);
+        ExportExcel.exportData(InvoiceVo.class,invoiceVos,response);
+    }
+
+
+    @PostMapping("/query")
+    public PageUtils<InvoiceVo> invoiceVoPage(int pageNum, int pageSize, @RequestBody InvoiceDto search) {
+
+        return invoiceService.search(pageNum,pageSize,search);
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody InvoiceDto invoiceDto) {
+
+        invoiceService.updateById(BeanUtil.copyProperties(invoiceDto,Invoice.class));
+        return Result.success();
+    }
+
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.common.Result;
 import org.example.domain.dto.UserDto;
 import org.example.domain.po.User;
+import org.example.domain.vo.UserVo;
 import org.example.service.UserService;
 import org.example.service.impl.UserServiceImpl;
 import org.example.utils.PageUtils;
@@ -29,12 +30,12 @@ public class UserController {
     }
 
     @GetMapping
-    public PageUtils<User> userList(int pageSize, int pageNum){
+    public PageUtils<UserVo> userList(int pageSize, int pageNum){
         Page<User> page = new Page<>(pageNum, pageSize);
 
         IPage<User> userIPage = userService.page(page);
 
-        return PageUtils.page(userIPage);
+        return PageUtils.page(userIPage,UserVo.class);
     }
 
     @PostMapping("/register")

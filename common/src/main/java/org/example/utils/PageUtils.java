@@ -1,6 +1,7 @@
 package org.example.utils;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,12 @@ public class  PageUtils <T>{
     private List<T> data;
 
 
-    public static <T> PageUtils <T> page(IPage<T> data) {
+    public static <T,R> PageUtils <T> page(IPage<R> data, Class<T> clazz) {
         PageUtils<T> pageUtils = new PageUtils<>();
         pageUtils.setTotal((int) data.getTotal());
         pageUtils.setPage((int) data.getPages());
         pageUtils.setCurrentPage((int) data.getCurrent());
-        pageUtils.setData(data.getRecords());
+        pageUtils.setData(BeanUtil.copyToList(data.getRecords(), clazz));
         return pageUtils;
     }
 
