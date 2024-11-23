@@ -23,8 +23,8 @@ public class InvoiceVo {          //发票
 
     @ExcelProperty("创建时间")
     @ColumnWidth(20)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime Time;   //
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;   //
     @ExcelProperty("用户账号")
     @ColumnWidth(20)
     private String usernum;

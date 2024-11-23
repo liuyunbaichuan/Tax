@@ -12,4 +12,9 @@ public interface InvoiceService extends IService<Invoice> {
     List<Invoice> invoiceList();
 
     PageUtils<InvoiceVo> search(int pageNum, int pageSize, InvoiceDto search);
+
+    List<InvoiceVo> search1(int pageNum, int pageSize, InvoiceDto search);
+
+
+    void add(InvoiceDto invoiceDto);
 }

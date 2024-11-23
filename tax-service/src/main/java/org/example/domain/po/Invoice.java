@@ -9,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
@@ -22,9 +24,9 @@ public class Invoice {          //发票
 
     @TableId(type= IdType.AUTO)
     private Integer id;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField(value = "create_time")
-    private LocalDateTime Time;   //
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createTime;  //
     @TableField(value = "usernum")
     private String usernum;
     @TableField(value = "username")//用户账号

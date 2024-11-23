@@ -2,7 +2,6 @@ package org.example.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.common.Result;
@@ -14,9 +13,7 @@ import org.example.utils.ExportExcel;
 import org.example.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,12 +45,23 @@ public class InvoiceController {
 
         return invoiceService.search(pageNum,pageSize,search);
     }
+    @PostMapping("/query1")
+    public List<InvoiceVo> invoiceVoPage1(int pageNum, int pageSize, @RequestBody InvoiceDto search) {
+
+        return invoiceService.search1(pageNum,pageSize,search);
+    }
 
     @PostMapping("/update")
     public Result update(@RequestBody InvoiceDto invoiceDto) {
 
         invoiceService.updateById(BeanUtil.copyProperties(invoiceDto,Invoice.class));
         return Result.success();
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody InvoiceDto invoiceDto) {
+        invoiceService.add(invoiceDto);
+        return Result.success("添加成功");
     }
 
 }

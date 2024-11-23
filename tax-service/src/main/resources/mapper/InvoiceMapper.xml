@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.InvoiceMapper">
+
+    <select id="query1" resultType="org.example.domain.po.Invoice">
+        select * from invoice where 1=1
+        <if test="invoice.createTime != null " >
+            AND invoice_num = #{invoice.createTime}
+        </if>
+        <if test="invoice.invoiceNum != null " >
+            AND invoice_num = #{invoice.invoiceNum}
+        </if>
+        <if test="invoice.product != null " >
+            AND product = #{invoice.product}
+        </if>
+        <if test="invoice.invoice != null " >
+            AND invoice = #{invoice.invoice}
+        </if>
+        <if test="invoice.taxpayer != null " >
+            AND taxpayer = #{invoice.taxpayer}
+        </if>
+        <if test="invoice.sfsh != null " >
+            AND sfsh = #{invoice.sfsh}
+        </if>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+</mapper>

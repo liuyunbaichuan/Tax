@@ -1,10 +1,13 @@
 package org.example.controller;
 
 
+import org.example.utils.PageUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/btax")
 public class BtaxController {
+
+    public PageUtils<>
 }
