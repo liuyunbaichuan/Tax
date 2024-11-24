@@ -8,10 +8,14 @@ import org.example.common.Result;
 
 import org.example.domain.dto.InvoiceDto;
 import org.example.domain.po.Invoice;
+import org.example.domain.vo.BtaxVo;
 import org.example.domain.vo.InvoiceVo;
+import org.example.domain.vo.User;
+import org.example.feign.BtaxFeign;
 import org.example.service.InvoiceService;
 import org.example.utils.ExportExcel;
 import org.example.utils.PageUtils;
+import org.example.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,9 @@ public class InvoiceController {
 
     @Autowired
     InvoiceService invoiceService;
+
+    @Autowired
+    BtaxFeign btaxFeign;
 
     @GetMapping
     public PageUtils<InvoiceVo> list(int pageNum, int pageSize) {
@@ -64,6 +71,24 @@ public class InvoiceController {
     public Result add(@RequestBody InvoiceDto invoiceDto) {
         invoiceService.add(invoiceDto);
         return Result.success("添加成功");
+    }
+
+
+    @GetMapping("/list")
+    public PageUtils<BtaxVo> btaxList(int pageNum, int pageSize){
+        PageUtils<BtaxVo> list = btaxFeign.btaxList(pageNum, pageSize);
+        return list;
+    }
+
+
+    @GetMapping("/userList")
+    public Result userList(){
+
+        String userId = ThreadLocalUtil.get();
+        System.out.println();
+        List<User> userlist = btaxFeign.Userlist();
+        return Result.success(userlist);
+
     }
 
 }
