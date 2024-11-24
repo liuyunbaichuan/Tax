@@ -12,6 +12,7 @@
         <module>gateway</module>
         <module>tax-service</module>
         <module>common</module>
+        <module>invoice-service</module>
     </modules>
 
     <parent>
