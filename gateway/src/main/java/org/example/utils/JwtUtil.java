@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.Calendar;
 import java.util.Map;
 
-@Component
 public class JwtUtil {
     private static final String SING = "XIAOSHUANG";
 
